@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "Working with Regular expressions" do
   it "matches character string" do
-    my_regex = //
+    my_regex = /\w*foo\w*/
     match = %w{ afoot catfoot dogfoot fanfoot
     foody foolery foolish fooster footage
     foothot footle footpad footway hotfoot
@@ -12,6 +12,7 @@ describe "Working with Regular expressions" do
     do_not_match = %w{ Atlas Aymoro Iberic Mahran Ormazd Silipan
     altared chandoo crenel crooked fardo folksy forest hebamic
     idgah manlike marly palazzi sixfold tarrock unfold }
+
 
     match.each do |word|
       expect(my_regex).to match(word)
@@ -23,7 +24,7 @@ describe "Working with Regular expressions" do
   end
 
   it "uses anchors for matching" do
-    my_regex = //
+    my_regex = /ick\z/
 
     match = %w{ Mick Rick allocochick backtrick bestick
     candlestick counterprick heartsick lampwick
@@ -48,7 +49,7 @@ describe "Working with Regular expressions" do
   end
 
   it "Uses ranges for matching" do
-    my_regex = //
+    my_regex = /^[a-f]*$/
     match = %w{ abac accede adead babe
     bead bebed bedad bedded bedead bedeaf
     caba caffa dace dade daff dead deed deface
@@ -70,7 +71,7 @@ describe "Working with Regular expressions" do
 
   context "email addresses" do
     it "matches one @ symbols" do
-      my_regex = //
+      my_regex = /@/
 
       match = %w{steven@flatironschool.com john.doe@example.com phil@example.co.uk }
       do_not_match = ["Steven Nunez", "Rose Weixel", "Deniz Unat"]
@@ -85,7 +86,7 @@ describe "Working with Regular expressions" do
     end
 
     it "matches character before and the @ symbols" do
-      my_regex = //
+      my_regex = /\w@/
 
       match = %w{steven@flatironschool.com john.doe@example.com phil@example.co.uk }
       do_not_match = %w{ "user at example.com", "@example.com" }
@@ -100,7 +101,7 @@ describe "Working with Regular expressions" do
     end
 
     it "matches character before, after and the @ symbols" do
-      my_regex = //
+      my_regex = /\w@\w/
 
       match = %w{steven@flatironschool.com john.doe@example.com phil@example.co.uk }
       do_not_match = %w{ "user at example.com", "Steven Nunez flatironschool.com"}
@@ -117,7 +118,7 @@ describe "Working with Regular expressions" do
 
     it "matches valid email address" do
       # Don't use the crazy one from the RFC!
-      my_regex = //
+      my_regex = /^[^@]*@\w*\.(com|co\.uk)$/
 
       match = %w{steven@flatironschool.com john.doe@example.com phil@example.co.uk }
       do_not_match = ["steven@flatironschool", "user at example.com", "user@example.com@example.com"]
@@ -134,12 +135,12 @@ describe "Working with Regular expressions" do
 
   context "The scan method" do
     it "matches valid US phone numbers regardless of format" do
-      my_regex = //
+      my_regex = /\d/
       match = ["702-386-5397", "2128675309", "(212) 867-5309"]
       do_not_match = ["123", "this isn't a number", "12345678900000", "abcdefghij", "123456789a"]
 
       match.each do |word|
-        expect(word.scan(my_regex).length) to eq(10)
+        expect(word.scan(my_regex).length).to eq(10)
       end
 
       do_not_match.each do |word|
